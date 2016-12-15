@@ -14,14 +14,24 @@ var toMap = function (array) {
   return map;
 }
 
+var mapToArray = function (map) {
+  var items = Object.keys(map).map(function (key) {
+    return [key, map[key]];
+  });
+  items.sort(function (first, second) {
+    return second[1] - first[1];
+  });
+  return items;
+}
+
 $(document).ready(function () {
   $(".text-input form").submit(function (event) {
     event.preventDefault();
     var inputText = $("#block").val();
-    var ulMap = toMap(toArray(inputText));
-    Object.keys(ulMap).forEach(function (key) {
-      $("#list").append("<li>" + key + ": " + ulMap[key] + "</li>");
-    });
+    var ulMap = mapToArray(toMap(toArray(inputText)));
+    ulMap.forEach(function(array) {
+      $("#list").append("<li>" + array[0] + ": " + array[1] + "</li>");
+    })
     $(".output").show();
-  })
-})
+  });
+});
